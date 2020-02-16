@@ -67,7 +67,7 @@ class Deck():
 
 class Player():
     def __init__(self, deck):
-        print(f"\n{self.__class__.__name__} Hand:", end=" ")
+        print(f"{self.__class__.__name__} Hand:", end=" ")
         
         if self.__class__.__name__ == "Player":
             hidden = False
@@ -78,6 +78,11 @@ class Player():
         
         self.hit(deck, hidden)
         self.hit(deck)
+        
+        print("")
+        if self.__class__.__name__ == "Player":
+            print(f"Player Score: {self.score()}")
+        print("")
 
     def __repr__(self):
         print(f"\n{self.__class__.__name__} Hand:", end=" ")
@@ -120,9 +125,10 @@ class Player():
 
 class Dealer(Player):
     def play(self, deck):
-        
-        while self.score < 17:
+        while self.score() < 17:
+            print("Dealer draws: ", end="")
             self.hit(deck)
+            print(self)
         # flip over hidden card
         # play while hand is less than or equal to 16
         # if > 21, bust
@@ -133,10 +139,35 @@ def setup_game(num_decks):
     deck = Deck(num_decks)
     dealer = Dealer(deck)
     player = Player(deck)
-    return dealer, player
+    return deck, dealer, player
 
-def play_game():
-    return "play game"
+def play_game(num_decks):
+    print("Welcome to Blackjack!")
+    print("Get as close to 21 as possible.\n")
+    deck, dealer, player = setup_game(num_decks)
+    
+    while player.score() <= 21:
+        hit = input("Would you like to hit? y/n ")
+        if hit in ["n", "N"]:
+            break
+        elif hit in ["y", "Y"]:
+            print("Player draws: ", end="")
+            player.hit(deck)
+            print(player)
+        else:
+            print("Invalid entry. Try again.")
+    if player.score() > 21:
+        game_result = "PLAYER BUSTS, DEALER WINS!"
+    else:
+        print(dealer)
+        dealer.play(deck)
+        if dealer.score() > 21:
+            game_result = "DEALER BUSTS, PLAYER WINS!"
+        elif dealer.score() >= player.score():
+            game_result = "DEALER WINS!"
+        else:
+            game_result = "PLAYER WINS!"
+    return game_result
 
 
 if __name__ == "__main__":
@@ -188,3 +219,7 @@ if __name__ == "__main__":
     # code to test game setup
     print("TEST 6")
     setup_game(2)
+
+    # code to test gameplay
+    print("\n\nTEST 7")
+    print(play_game(2))
