@@ -162,26 +162,18 @@ if __name__ == "__main__":
 
     # code to test player hands with Aces
     print("TEST 4")
-    deck = Deck(2)
-    player = Player(deck)
     # Test all Aces must be of value 1
     player.hand = [Card("A", "D"), Card("A", "H"), Card("A", "C"), Card("J", "S")]
     print(player)
     
-    deck = Deck(2)
-    player = Player(deck)
     # Test all Aces must be of value 1
     player.hand = [Card("A", "D"), Card("A", "H"), Card("J", "S"), Card("J", "C")]
     print(player)
     
-    deck = Deck(2)
-    player = Player(deck)
     # Test Ace must be of value 11
     player.hand = [Card("A", "D"), Card(2, "H"), Card(10, "C"), Card(8, "C")]
     print(player)
     
-    deck = Deck(2)
-    player = Player(deck)
     # Test one Ace of value 11 and one Ace of value 1
     player.hand = [Card("A", "C"), Card("A", "H"), Card(3, "H"), Card(6, "C")]
     print(player)
