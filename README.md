@@ -28,6 +28,6 @@ The blackjack program is an optional assignment that can be used to replace any 
 ### Dealer  
 * Inherits from Player but has its own play method
 
-### Game Method
+### Game Methods
 * Game setup
 * Play game
