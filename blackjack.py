@@ -36,19 +36,25 @@ class Deck():
             for value in [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]:
                 for suit in ["D", "C", "H", "S"]:
                     self.deck.append(Card(value, suit))
+        
+        self.shuffle()
     
     def __repr__(self):
         for card in self.deck:
             print(card)
         return ""
 
-    def shuffle():
-        # call this function in the init() method
-        return "shuffle"
+    def __len__(self):
+        return len(self.deck)
 
-    def draw():
+    def shuffle(self):
+        # call this function in the init() method
+        return r.shuffle(self.deck)
+
+    def draw(self):
         # use a pop method to remove card and return it
-        return "draw"
+        return self.deck.pop()
+
 
 
 class Player():
@@ -92,3 +98,18 @@ def setup_game():
 
 def play_game():
     return "play game"
+
+
+if __name__ == "__main__":
+    # code to test that specifying number of decks works correctly
+    deck = Deck(1)
+    print(f"Cards in one deck: {len(deck)}")
+    deck = Deck(2)
+    print(f"Cards in two decks: {len(deck)}")
+    print("\n")
+
+    # code to test that deck.draw() method works correctly
+    deck = Deck(2)
+    print(f"Cards in two decks: {len(deck)}")
+    print(f"Draw card: {deck.draw()}")
+    print(f"Remaining cards after draw: {len(deck)}")
