@@ -7,13 +7,15 @@ Due: 23 February 2020
 
 import random as r
 import time
+
 sleep_time = 0.4
 
-class Card():
+
+class Card:
     def __init__(self, value, suit):
         self.value = value
         self.suit = suit
-        
+
         if self.suit == None:
             score = self.value
         elif self.value in [2, 3, 4, 5, 6, 7, 8, 9, 10]:
@@ -25,7 +27,7 @@ class Card():
             score = 11
 
         self.score = score
-    
+
     def __repr__(self):
         if self.suit == None:
             return f"Score: {self.score}"
@@ -37,7 +39,7 @@ class Card():
         return Card(result, None)
 
 
-class Deck():
+class Deck:
     def __init__(self, num_decks):
         self.num_decks = num_decks
         self.deck = []
@@ -46,9 +48,9 @@ class Deck():
             for value in [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]:
                 for suit in ["D", "C", "H", "S"]:
                     self.deck.append(Card(value, suit))
-        
+
         self.shuffle()
-    
+
     def __repr__(self):
         for card in self.deck:
             print(card)
@@ -66,20 +68,20 @@ class Deck():
         return self.deck.pop()
 
 
-class Player():
+class Player:
     def __init__(self, deck):
         print(f"{self.__class__.__name__} Hand:", end=" ")
-        
+
         if self.__class__.__name__ == "Player":
             hidden = False
         else:
             hidden = True
 
         self.hand = []
-        
+
         self.hit(deck, hidden)
         self.hit(deck)
-        
+
         print("")
         if self.__class__.__name__ == "Player":
             print(f"Player Score: {self.score()}")
@@ -91,12 +93,12 @@ class Player():
             print(card, end=" ")
         print(f"\n{self.__class__.__name__} Score: {self.score()}")
         return ""
-    
+
     def hit(self, deck, hidden=False):
         # use pop method to remove card from deck and add to player hand attribute
         card = deck.draw()
         self.hand.append(card)
-        
+
         if hidden:
             return print("xx", end=" ")
         else:
@@ -105,12 +107,12 @@ class Player():
     def score(self):
         raw_score = sum(self.hand, Card(0, None))
         # need to keep track of aces to pick the best hand
-        
+
         for card in self.hand:
             if raw_score.score > 21 and card.value == "A" and card.score == 11:
                 card.score = 1
                 raw_score = sum(self.hand, Card(0, None))
-        
+
         score = raw_score.score
 
         return score
@@ -137,17 +139,19 @@ class Dealer(Player):
         # if > 16 but less than player, player wins
         # else dealer wins
 
+
 def setup_game(num_decks):
     deck = Deck(num_decks)
     dealer = Dealer(deck)
     player = Player(deck)
     return deck, dealer, player
 
+
 def play_game(num_decks):
-    print("Welcome to Blackjack!")
+    print("\nWelcome to Blackjack!")
     print("Get as close to 21 as possible.\n")
     deck, dealer, player = setup_game(num_decks)
-    
+
     while player.score() <= 21:
         hit = input("Would you like to hit? y/n ")
         if hit in ["n", "N"]:
@@ -158,6 +162,7 @@ def play_game(num_decks):
             print(player)
         else:
             print("Invalid entry. Try again.")
+
     if player.score() > 21:
         game_result = "PLAYER BUSTS, DEALER WINS!"
     else:
@@ -166,10 +171,13 @@ def play_game(num_decks):
         dealer.play(deck)
         if dealer.score() > 21:
             game_result = "DEALER BUSTS, PLAYER WINS!"
-        elif dealer.score() >= player.score():
+        elif dealer.score() > player.score():
             game_result = "DEALER WINS!"
+        elif dealer.score() == player.score():
+            game_result = "IT'S A DRAW!"
         else:
             game_result = "PLAYER WINS!"
+
     return game_result
 
 
@@ -201,15 +209,15 @@ if __name__ == "__main__":
     # Test all Aces must be of value 1
     player.hand = [Card("A", "D"), Card("A", "H"), Card("A", "C"), Card("J", "S")]
     print(player)
-    
+
     # Test all Aces must be of value 1
     player.hand = [Card("A", "D"), Card("A", "H"), Card("J", "S"), Card("J", "C")]
     print(player)
-    
+
     # Test Ace must be of value 11
     player.hand = [Card("A", "D"), Card(2, "H"), Card(10, "C"), Card(8, "C")]
     print(player)
-    
+
     # Test one Ace of value 11 and one Ace of value 1
     player.hand = [Card("A", "C"), Card("A", "H"), Card(3, "H"), Card(6, "C")]
     print(player)
