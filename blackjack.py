@@ -13,7 +13,9 @@ class Card():
         self.value = value
         self.suit = suit
         
-        if self.value in [2, 3, 4, 5, 6, 7, 8, 9, 10]:
+        if self.suit == None:
+            score = self.value
+        elif self.value in [2, 3, 4, 5, 6, 7, 8, 9, 10]:
             score = self.value
         elif self.value in ["J", "Q", "K"]:
             score = 10
@@ -24,7 +26,16 @@ class Card():
         self.score = score
     
     def __repr__(self):
-        return f"{self.value}{self.suit} with score {self.score}"
+        if self.suit == None:
+            return f"Score: {self.score}"
+        elif self.value == "A":
+            return f"{self.value}{self.suit} with value 1 or {self.score}"
+        else:
+            return f"{self.value}{self.suit} with value {self.score}"
+
+    def __add__(self, other):
+        result = self.score + other.score
+        return Card(result, None)
 
 
 class Deck():
@@ -56,20 +67,39 @@ class Deck():
         return self.deck.pop()
 
 
-
 class Player():
-    # player should get some cards on init() accessing deck object
+    def __init__(self, deck):
+        self.hand = []
+        self.hit(deck)
+        self.hit(deck)
+
+    def __repr__(self):
+        print("\nPlayer Hand")
+        for card in self.hand:
+            print(card)
+        print(f"Player Score: {self.score()}")
+        return ""
     
-    def hit():
+    def hit(self, deck):
         # use pop method to remove card from deck and add to player hand attribute
-        return "add_card"
+        card = deck.draw()
+        self.hand.append(card)
+        return print(f"Card Drawn: {card}")
 
-    def score():
-        # score the hand
+    def score(self):
+        raw_score = sum(self.hand, Card(0, None))
         # need to keep track of aces to pick the best hand
-        return "score"
+        
+        for card in self.hand:
+            if raw_score.score > 21 and card.value == "A" and card.score == 11:
+                card.score = 1
+                raw_score = sum(self.hand, Card(0, None))
+        
+        score = raw_score.score
 
-    def play():
+        return score
+
+    def play(self):
         # show you your hand
         # ask if you want to hit
         # then score your hand
@@ -80,11 +110,11 @@ class Player():
 
 class Dealer(Player):
     # dealer should get some cards on init() accessing deck object
-    def initial_hand():
+    def initial_hand(self):
         # show dealer's card with one card hidden
         return "show dealer hand"
     
-    def play():
+    def play(self):
         # flip over hidden card
         # play while hand is less than or equal to 16
         # if > 21, bust
@@ -102,6 +132,7 @@ def play_game():
 
 if __name__ == "__main__":
     # code to test that specifying number of decks works correctly
+    print("TEST 1")
     deck = Deck(1)
     print(f"Cards in one deck: {len(deck)}")
     deck = Deck(2)
@@ -109,7 +140,41 @@ if __name__ == "__main__":
     print("\n")
 
     # code to test that deck.draw() method works correctly
+    print("TEST 1")
     deck = Deck(2)
     print(f"Cards in two decks: {len(deck)}")
     print(f"Draw card: {deck.draw()}")
     print(f"Remaining cards after draw: {len(deck)}")
+    print("\n")
+
+    # code to test create player and print player stats
+    print("TEST 3")
+    print("Creating player...")
+    player = Player(deck)
+    print(player)
+
+    # code to test player hands with Aces
+    print("TEST 4")
+    deck = Deck(2)
+    player = Player(deck)
+    # Test all Aces must be of value 1
+    player.hand = [Card("A", "D"), Card("A", "H"), Card("A", "C"), Card("J", "S")]
+    print(player)
+    
+    deck = Deck(2)
+    player = Player(deck)
+    # Test all Aces must be of value 1
+    player.hand = [Card("A", "D"), Card("A", "H"), Card("J", "S"), Card("J", "C")]
+    print(player)
+    
+    deck = Deck(2)
+    player = Player(deck)
+    # Test Ace must be of value 11
+    player.hand = [Card("A", "D"), Card(2, "H"), Card(10, "C"), Card(8, "C")]
+    print(player)
+    
+    deck = Deck(2)
+    player = Player(deck)
+    # Test one Ace of value 11 and one Ace of value 1
+    player.hand = [Card("A", "C"), Card("A", "H"), Card(3, "H"), Card(6, "C")]
+    print(player)
