@@ -116,10 +116,6 @@ class Dealer(Player):
         self.hand = []
         self.hit(deck, hidden=True)
         self.hit(deck)
-
-    def initial_hand(self):
-        # show dealer's card with one card hidden
-        return "show dealer hand"
     
     def play(self, deck):
         
