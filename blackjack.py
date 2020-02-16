@@ -6,7 +6,8 @@ Due: 23 February 2020
 """
 
 import random as r
-
+import time
+sleep_time = 0.4
 
 class Card():
     def __init__(self, value, suit):
@@ -126,6 +127,7 @@ class Player():
 class Dealer(Player):
     def play(self, deck):
         while self.score() < 17:
+            time.sleep(sleep_time)
             print("Dealer draws: ", end="")
             self.hit(deck)
             print(self)
@@ -159,6 +161,7 @@ def play_game(num_decks):
     if player.score() > 21:
         game_result = "PLAYER BUSTS, DEALER WINS!"
     else:
+        time.sleep(sleep_time)
         print(dealer)
         dealer.play(deck)
         if dealer.score() > 21:
