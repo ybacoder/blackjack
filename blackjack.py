@@ -67,15 +67,16 @@ class Deck():
 
 class Player():
     def __init__(self, deck):
+        print("Player Hand:", end=" ")
         self.hand = []
         self.hit(deck)
         self.hit(deck)
 
     def __repr__(self):
-        print("\nPlayer Hand")
+        print("\nPlayer Hand:", end=" ")
         for card in self.hand:
-            print(card)
-        print(f"Player Score: {self.score()}")
+            print(card, end=" ")
+        print(f"\nPlayer Score: {self.score()}")
         return ""
     
     def hit(self, deck, hidden=False):
@@ -86,7 +87,7 @@ class Player():
         if hidden:
             return ""
         else:
-            return print(f"Card Drawn: {card}")
+            return print(card, end=" ")
 
     def score(self):
         raw_score = sum(self.hand, Card(0, None))
