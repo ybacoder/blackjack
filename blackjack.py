@@ -80,11 +80,15 @@ class Player():
         print(f"Player Score: {self.score()}")
         return ""
     
-    def hit(self, deck):
+    def hit(self, deck, hidden=False):
         # use pop method to remove card from deck and add to player hand attribute
         card = deck.draw()
         self.hand.append(card)
-        return print(f"Card Drawn: {card}")
+        
+        if hidden:
+            return ""
+        else:
+            return print(f"Card Drawn: {card}")
 
     def score(self):
         raw_score = sum(self.hand, Card(0, None))
@@ -109,7 +113,11 @@ class Player():
 
 
 class Dealer(Player):
-    # dealer should get some cards on init() accessing deck object
+    def __init__(self, deck):
+        self.hand = []
+        self.hit(deck, hidden=True)
+        self.hit(deck)
+
     def initial_hand(self):
         # show dealer's card with one card hidden
         return "show dealer hand"
@@ -121,7 +129,6 @@ class Dealer(Player):
         # if > 16 but less than player, player wins
         # else dealer wins
         return "dealer play"
-
 
 def setup_game():
     return "setup"
