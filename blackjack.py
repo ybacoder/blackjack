@@ -28,10 +28,8 @@ class Card():
     def __repr__(self):
         if self.suit == None:
             return f"Score: {self.score}"
-        elif self.value == "A":
-            return f"{self.value}{self.suit} with value 1 or {self.score}"
         else:
-            return f"{self.value}{self.suit} with value {self.score}"
+            return f"{self.value}{self.suit}"
 
     def __add__(self, other):
         result = self.score + other.score
@@ -123,6 +121,7 @@ class Dealer(Player):
         return "show dealer hand"
     
     def play(self, deck):
+        
         while self.score < 17:
             self.hit(deck)
         # flip over hidden card
