@@ -122,13 +122,14 @@ class Dealer(Player):
         # show dealer's card with one card hidden
         return "show dealer hand"
     
-    def play(self):
+    def play(self, deck):
+        while self.score < 17:
+            self.hit(deck)
         # flip over hidden card
         # play while hand is less than or equal to 16
         # if > 21, bust
         # if > 16 but less than player, player wins
         # else dealer wins
-        return "dealer play"
 
 def setup_game():
     return "setup"
