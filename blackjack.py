@@ -9,15 +9,39 @@ import random as r
 
 
 class Card():
-    # add init
-    # give card attributes: value, suit, and score
-    # maybe initialize ace as 11 and flip it to a 1 if the score is > 21
+    def __init__(self, value, suit):
+        self.value = value
+        self.suit = suit
+        
+        if self.value in [2, 3, 4, 5, 6, 7, 8, 9, 10]:
+            score = self.value
+        elif self.value in ["J", "Q", "K"]:
+            score = 10
+        elif self.value == "A":
+            # initialize A as 11 - flip it to a 1 later if the hand score is > 21
+            score = 11
+
+        self.score = score
+    
+    def __repr__(self):
+        return f"{self.value}{self.suit} with score {self.score}"
 
 
 class Deck():
-    # pass number of decks as an argument and create the overall Deck object
-    # one loop for number of decks, one loop for 
-    # create a deck using a double for loop either in init or passed as argument
+    def __init__(self, num_decks):
+        self.num_decks = num_decks
+        self.deck = []
+
+        for n in range(self.num_decks):
+            for value in [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]:
+                for suit in ["D", "C", "H", "S"]:
+                    self.deck.append(Card(value, suit))
+    
+    def __repr__(self):
+        for card in self.deck:
+            print(card)
+        return ""
+
     def shuffle():
         # call this function in the init() method
         return "shuffle"
