@@ -73,10 +73,10 @@ class Player():
         self.hit(deck)
 
     def __repr__(self):
-        print("\nPlayer Hand:", end=" ")
+        print(f"\n{self.__class__.__name__} Hand:", end=" ")
         for card in self.hand:
             print(card, end=" ")
-        print(f"\nPlayer Score: {self.score()}")
+        print(f"\n{self.__class__.__name__} Score: {self.score()}")
         return ""
     
     def hit(self, deck, hidden=False):
@@ -85,7 +85,7 @@ class Player():
         self.hand.append(card)
         
         if hidden:
-            return ""
+            return print("xx", end=" ")
         else:
             return print(card, end=" ")
 
@@ -178,3 +178,8 @@ if __name__ == "__main__":
     # Test one Ace of value 11 and one Ace of value 1
     player.hand = [Card("A", "C"), Card("A", "H"), Card(3, "H"), Card(6, "C")]
     print(player)
+
+    # code to test dealer creation
+    print("TEST 5")
+    dealer = Dealer(deck)
+    print(dealer)
