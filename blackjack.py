@@ -67,9 +67,16 @@ class Deck():
 
 class Player():
     def __init__(self, deck):
-        print("Player Hand:", end=" ")
+        print(f"\n{self.__class__.__name__} Hand:", end=" ")
+        
+        if self.__class__.__name__ == "Player":
+            hidden = False
+        else:
+            hidden = True
+
         self.hand = []
-        self.hit(deck)
+        
+        self.hit(deck, hidden)
         self.hit(deck)
 
     def __repr__(self):
@@ -112,11 +119,6 @@ class Player():
 
 
 class Dealer(Player):
-    def __init__(self, deck):
-        self.hand = []
-        self.hit(deck, hidden=True)
-        self.hit(deck)
-    
     def play(self, deck):
         
         while self.score < 17:
@@ -127,8 +129,11 @@ class Dealer(Player):
         # if > 16 but less than player, player wins
         # else dealer wins
 
-def setup_game():
-    return "setup"
+def setup_game(num_decks):
+    deck = Deck(num_decks)
+    dealer = Dealer(deck)
+    player = Player(deck)
+    return dealer, player
 
 def play_game():
     return "play game"
@@ -144,7 +149,7 @@ if __name__ == "__main__":
     print("\n")
 
     # code to test that deck.draw() method works correctly
-    print("TEST 1")
+    print("TEST 2")
     deck = Deck(2)
     print(f"Cards in two decks: {len(deck)}")
     print(f"Draw card: {deck.draw()}")
@@ -179,3 +184,7 @@ if __name__ == "__main__":
     print("TEST 5")
     dealer = Dealer(deck)
     print(dealer)
+
+    # code to test game setup
+    print("TEST 6")
+    setup_game(2)
